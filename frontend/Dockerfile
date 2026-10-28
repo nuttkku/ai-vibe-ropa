@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7
 
-FROM node:24.17.0-alpine3.24 AS deps
+FROM node:24.22.1-alpine3.24 AS deps
 WORKDIR /app
 RUN npm install --global npm@11.19.0
 COPY package.json package-lock.json ./
@@ -12,7 +12,7 @@ FROM deps AS build
 COPY frontend ./frontend
 RUN npm run build --workspace=ropa-frontend
 
-FROM node:24.17.0-alpine3.24 AS runtime
+FROM node:24.22.1-alpine3.24 AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000

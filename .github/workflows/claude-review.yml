@@ -23,7 +23,15 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          direct_prompt: |
+          # v1 automation mode: `prompt` replaces the removed `direct_prompt`,
+          # needs the repo/PR number spelled out, and only gets the tools
+          # listed in claude_args — read the PR and post one comment, nothing else.
+          claude_args: |
+            --allowedTools "Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
             Review this pull request's diff for the ROPA project — an Express +
             Prisma backend and a SvelteKit frontend implementing a GDPR/PDPA
             Record of Processing Activities system with role-based permissions
